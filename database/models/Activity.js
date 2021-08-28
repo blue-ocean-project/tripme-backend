@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const db = require("../index");
 
-const Event = db.define(
-  "Event",
+const Activity = db.define(
+  "Activity",
   {
     type: {
       type: DataTypes.STRING,
@@ -23,8 +23,8 @@ const Event = db.define(
     },
   },
   {
-    tableName: "events",
+    tableName: "activities",
   }
 );
 
-module.exports = Event;
+module.exports = Activity;

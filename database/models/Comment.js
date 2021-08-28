@@ -8,7 +8,11 @@ const Comment = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    event_id: {
+    activity_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
