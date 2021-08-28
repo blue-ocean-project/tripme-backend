@@ -31,7 +31,7 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    last_last: {
+    last_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
