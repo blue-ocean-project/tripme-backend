@@ -6,6 +6,6 @@ const controllers = require("../controllers/activities");
 ================================ */
 router.get("/trips/:trip_id", controllers.getActivities);
 router.post("/trips/:trip_id", controllers.createActivity);
-router.patch("/:event_id", controllers.updateActivity);
+router.patch("/:activity_id", controllers.updateActivity);
 
 module.exports = router;
