@@ -6,6 +6,7 @@ const controllers = require("../controllers/trips");
 ================================ */
 router.get("/", controllers.getTrips);
 router.post("/", controllers.createTrip);
+router.get("/:trip_id", controllers.tripDetail);
 router.patch("/:trip_id", controllers.updateTrip);
 
 module.exports = router;

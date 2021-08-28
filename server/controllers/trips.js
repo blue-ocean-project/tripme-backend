@@ -7,6 +7,9 @@ module.exports = {
   createTrip: (req, res) => {
     res.status(200).json("create trip");
   },
+  tripDetail: (req, res) => {
+    res.status(200).json("get trip detail");
+  },
   updateTrip: (req, res) => {
     res.status(200).json("edit trip");
   },
