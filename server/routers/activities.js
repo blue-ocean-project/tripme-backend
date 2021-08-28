@@ -2,7 +2,7 @@ const router = require("express").Router();
 const controllers = require("../controllers/activities");
 
 /* ================================
-          /events
+          /activities
 ================================ */
 router.get("/trips/:trip_id", controllers.getActivities);
 router.post("/trips/:trip_id", controllers.createActivity);

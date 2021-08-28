@@ -21,6 +21,16 @@ const Comment = db.define(
     tableName: "comments",
     updatedAt: "updated_at",
     createdAt: "created_at",
+    indexes: [
+      {
+        using: "BTREE",
+        fields: ["activity_id"],
+      },
+      {
+        using: "BTREE",
+        fields: ["user_id"],
+      },
+    ],
   }
 );
 

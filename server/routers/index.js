@@ -11,7 +11,7 @@ router.use("/auth", authRouter);
 router.use("/signup", signupRouter);
 router.use("/invite", inviteRouter);
 router.use("/trips", tripsRouter);
-router.use("/events", activityRouter);
+router.use("/activities", activityRouter);
 router.use("/comments", commentsRouter);
 
 module.exports = router;

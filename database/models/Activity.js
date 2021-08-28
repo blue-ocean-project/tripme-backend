@@ -25,6 +25,12 @@ const Activity = db.define(
     tableName: "activities",
     updatedAt: "updated_at",
     createdAt: "created_at",
+    indexes: [
+      {
+        using: "BTREE",
+        fields: ["trip_id"],
+      },
+    ],
   }
 );
 

@@ -16,6 +16,12 @@ const Invite = db.define(
     tableName: "invites",
     updatedAt: "updated_at",
     createdAt: "created_at",
+    indexes: [
+      {
+        using: "BTREE",
+        fields: ["trip_id"],
+      },
+    ],
   }
 );
 

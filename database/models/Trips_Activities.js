@@ -17,6 +17,16 @@ const Trips_Activities = db.define(
     tableName: "trips_activities",
     updatedAt: "updated_at",
     createdAt: "created_at",
+    indexes: [
+      {
+        using: "BTREE",
+        fields: ["trip_id"],
+      },
+      {
+        using: "BTREE",
+        fields: ["activity_id"],
+      },
+    ],
   }
 );
 
