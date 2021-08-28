@@ -44,11 +44,6 @@ const User = db.define(
       allowNull: false,
       defaultValue: [],
     },
-    trip_id: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      allowNull: false,
-      defaultValue: [],
-    },
   },
   {
     tableName: "users",
