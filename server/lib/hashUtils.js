@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 /*
 ===============================================
@@ -14,10 +14,10 @@ Add any hashing utility functions below
  * @param {string} [salt] - The salt to add to the data before hashing.
  * @returns {string} A string with the hashed value.
  */
-exports.createHash = (data, salt = '') => {
-  const shasum = crypto.createHash('sha256');
+exports.createHash = (data, salt = "") => {
+  const shasum = crypto.createHash("sha256");
   shasum.update(data + salt);
-  return shasum.digest('hex');
+  return shasum.digest("hex");
 };
 
 /**
@@ -28,10 +28,11 @@ exports.createHash = (data, salt = '') => {
  * @returns {boolean} A boolean indicating if the attempted value
  * matches the stored value.
  */
-exports.compareHash = (attempted, stored, salt) => stored === this.createHash(attempted, salt);
+exports.compareHash = (attempted, stored, salt) =>
+  stored === this.createHash(attempted, salt);
 
 /**
  * Creates a random 32 byte string.
  * @returns {string} A random string.
  */
-exports.createRandom32String = () => crypto.randomBytes(32).toString('hex');
+exports.createRandom32String = () => crypto.randomBytes(32).toString("hex");

@@ -1,6 +1,12 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require("sequelize");
 
-const { database, user, password, host, dialect } = require('./config/config.database');
+const {
+  database,
+  user,
+  password,
+  host,
+  dialect,
+} = require("./config/config.database");
 
 const sequelize = new Sequelize(database, user, password, {
   host,
@@ -9,7 +15,7 @@ const sequelize = new Sequelize(database, user, password, {
 });
 
 const User = sequelize.define(
-  'User',
+  "User",
   {
     email: {
       type: DataTypes.STRING,
@@ -24,7 +30,7 @@ const User = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'pending',
+      defaultValue: "pending",
     },
     first: {
       type: DataTypes.STRING,
@@ -46,12 +52,12 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: 'users',
-  },
+    tableName: "users",
+  }
 );
 
 const Trip = sequelize.define(
-  'Trip',
+  "Trip",
   {
     destination: {
       type: DataTypes.STRING,
@@ -72,12 +78,12 @@ const Trip = sequelize.define(
     },
   },
   {
-    tableName: 'trips',
-  },
+    tableName: "trips",
+  }
 );
 
 const Event = sequelize.define(
-  'Event',
+  "Event",
   {
     category: {
       type: DataTypes.STRING,
@@ -97,8 +103,8 @@ const Event = sequelize.define(
     },
   },
   {
-    tableName: 'events',
-  },
+    tableName: "events",
+  }
 );
 
 sequelize.sync();

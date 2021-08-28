@@ -1,11 +1,11 @@
 module.exports = {
   getTrips: (req, res) => {
-    res.status(200).json('get trips');
+    res.status(200).json("get trips");
   },
   createTrip: (req, res) => {
-    res.status(200).json('create trip');
+    res.status(200).json("create trip");
   },
   updateTrip: (req, res) => {
-    res.status(200).json('edit trip');
+    res.status(200).json("edit trip");
   },
 };

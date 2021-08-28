@@ -1,11 +1,11 @@
 module.exports = {
   getComments: (req, res) => {
-    res.status(200).json('get comments');
+    res.status(200).json("get comments");
   },
   createComment: (req, res) => {
-    res.status(200).json('create comment');
+    res.status(200).json("create comment");
   },
   updateComment: (req, res) => {
-    res.status(200).json('update comment');
+    res.status(200).json("update comment");
   },
 };

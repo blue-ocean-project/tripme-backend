@@ -1,9 +1,9 @@
 module.exports = {
-  host: 'localhost',
+  host: "localhost",
   port: 5432,
-  database: 'database',
-  user: 'user',
-  password: 'password',
-  dialect: 'mysql',
+  database: "database",
+  user: "user",
+  password: "password",
+  dialect: "mysql",
   logging: false,
 };
