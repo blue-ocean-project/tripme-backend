@@ -37,8 +37,8 @@ module.exports = {
           user.verified = req.body.verified;
         }
         const newUser = await models.User.create(user);
+        console.log(newUser);
         res.status(201).json({
-          user_id: newUser.id,
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
