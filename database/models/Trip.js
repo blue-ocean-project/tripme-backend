@@ -19,6 +19,8 @@ const Trip = db.define(
   },
   {
     tableName: "trips",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

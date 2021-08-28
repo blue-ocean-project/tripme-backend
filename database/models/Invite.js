@@ -6,7 +6,6 @@ const Invite = db.define(
   {
     trip_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     key: {
       type: DataTypes.STRING,
@@ -15,6 +14,8 @@ const Invite = db.define(
   },
   {
     tableName: "invites",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

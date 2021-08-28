@@ -19,6 +19,8 @@ const Comment = db.define(
   },
   {
     tableName: "comments",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

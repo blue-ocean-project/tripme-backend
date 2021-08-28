@@ -17,13 +17,14 @@ const Activity = db.define(
       allowNull: false,
     },
     trip_id: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: [],
     },
   },
   {
     tableName: "activities",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

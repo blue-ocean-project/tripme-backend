@@ -16,6 +16,8 @@ const Verification = db.define(
   },
   {
     tableName: "verifications",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

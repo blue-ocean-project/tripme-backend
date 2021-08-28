@@ -47,6 +47,8 @@ const User = db.define(
   },
   {
     tableName: "users",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 
