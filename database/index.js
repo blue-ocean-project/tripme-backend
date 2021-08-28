@@ -14,6 +14,41 @@ const sequelize = new Sequelize(database, user, password, {
   logging: false,
 });
 
+const Session = sequelize.define(
+  "Session",
+  {
+    created_at: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "users",
+  }
+);
+
+const Verification = sequelize.define(
+  "Verification",
+  {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    key: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "users",
+  }
+);
+
 const User = sequelize.define(
   "User",
   {
@@ -23,27 +58,34 @@ const User = sequelize.define(
       unqiue: true,
       primaryKey: true,
     },
+    phone: {
+      type: DataTypes.STRING,
+      unqiue: true,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    status: {
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    verified: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "pending",
     },
-    first: {
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    last: {
+    last_last: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    trips: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+    profile_pic: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: [],
     },
     availability: {
       type: DataTypes.ARRAY(DataTypes.STRING),
@@ -63,18 +105,13 @@ const Trip = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    startDate: {
+    start_date: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    endDate: {
+    end_date: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    users: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false,
-      defaultValue: [],
     },
   },
   {
@@ -85,7 +122,7 @@ const Trip = sequelize.define(
 const Event = sequelize.define(
   "Event",
   {
-    category: {
+    type: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -94,16 +131,85 @@ const Event = sequelize.define(
       allowNull: false,
     },
     date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    trip_id: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      allowNull: false,
+      defaultValue: [],
+    },
+  },
+  {
+    tableName: "events",
+  }
+);
+
+const Comment = sequelize.define(
+  "Comment",
+  {
+    body: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    comments: {
+    event_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "comments",
+  }
+);
+
+const Invite = sequelize.define(
+  "Invite",
+  {
+    trip_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    key: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "events",
+    tableName: "invites",
+  }
+);
+
+const Trips_Users = sequelize.define(
+  "Trips_Users",
+  {
+    trip_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "trips_users",
+  }
+);
+
+const TRIPS_EVENTS = sequelize.define(
+  "Trips_Events",
+  {
+    trip_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    event_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "trips_events",
   }
 );
 
