@@ -1,19 +1,6 @@
 version: "3.1"
 
 services:
-  tripme_backend:
-    container_name: tripme
-    build:
-      context: .
-    ports:
-      - "3000:3000"
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=tripme
-    depends_on:
-      - db
-
   db:
     container_name: tripme_db
     image: postgres
