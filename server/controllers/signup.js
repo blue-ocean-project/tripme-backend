@@ -1,3 +1,5 @@
+const models = require("../../database/models");
+
 module.exports = {
   signup: (req, res) => {
     res.status(200).json("signup base");

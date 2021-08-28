@@ -1,3 +1,5 @@
+const models = require("../../database/models");
+
 module.exports = {
   getComments: (req, res) => {
     res.status(200).json("get comments");

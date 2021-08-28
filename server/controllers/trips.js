@@ -1,3 +1,5 @@
+const models = require("../../database/models");
+
 module.exports = {
   getTrips: (req, res) => {
     res.status(200).json("get trips");
