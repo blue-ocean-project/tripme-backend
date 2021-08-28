@@ -1,3 +1,9 @@
+#Project
+*DS_Store
+config.*.js
+*.pem
+*bundle.js
+
 # Logs
 logs
 *.log
