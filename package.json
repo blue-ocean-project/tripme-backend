@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon ./server/index.js",
+    "lorem": "node ./database/seed/index.js",
     "prettier:format": "prettier --write .",
     "prettier:check:": "prettier --check .",
     "prepare": "husky install"
@@ -28,6 +29,7 @@
     "husky": "^7.0.2",
     "jest": "^27.0.6",
     "lint-staged": "^11.1.2",
+    "lorem-ipsum": "^2.0.3",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0"
   },

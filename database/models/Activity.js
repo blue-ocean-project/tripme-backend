@@ -16,6 +16,10 @@ const Activity = db.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    duration: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     trip_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
