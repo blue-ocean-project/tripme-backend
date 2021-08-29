@@ -10,7 +10,9 @@ module.exports = () => {
     email: `${lorem.generateWords(1)}@${lorem.generateWords(1)}.com`,
     phone: Math.floor(Math.random() * phoneDelta + phoneMin),
     password: hash.createHash("password"),
-    first: lorem.generateWords(1),
-    last: lorem.generateWords(1),
+    salt: hash.createHash("password"),
+    verified: false,
+    first_name: lorem.generateWords(1),
+    last_name: lorem.generateWords(1),
   };
 };

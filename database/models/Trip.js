@@ -1,9 +1,13 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Sequelize } = require("sequelize");
 const db = require("../index");
 
 const Trip = db.define(
   "Trip",
   {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+    },
     destination: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,11 +20,17 @@ const Trip = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    createdAt: {
+      field: "created_at",
+      type: Sequelize.DATE,
+    },
+    updatedAt: {
+      field: "updated_at",
+      type: Sequelize.DATE,
+    },
   },
   {
     tableName: "trips",
-    updatedAt: "updated_at",
-    createdAt: "created_at",
   }
 );
 

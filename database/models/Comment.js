@@ -1,9 +1,13 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Sequelize } = require("sequelize");
 const db = require("../index");
 
 const Comment = db.define(
   "Comment",
   {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+    },
     body: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,11 +20,17 @@ const Comment = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    createdAt: {
+      field: "created_at",
+      type: Sequelize.DATE,
+    },
+    updatedAt: {
+      field: "updated_at",
+      type: Sequelize.DATE,
+    },
   },
   {
     tableName: "comments",
-    updatedAt: "updated_at",
-    createdAt: "created_at",
     indexes: [
       {
         using: "BTREE",
