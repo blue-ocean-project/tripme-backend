@@ -13,9 +13,19 @@ const Verification = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: "verifications",
+    indexes: [
+      {
+        using: "BTREE",
+        fields: ["email"],
+      },
+    ],
     updatedAt: "updated_at",
     createdAt: "created_at",
   }

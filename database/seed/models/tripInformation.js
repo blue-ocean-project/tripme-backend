@@ -15,6 +15,7 @@ const userArray = [];
 for (let i = 0; i < n_users; i++) {
   userArray.push(User());
 }
+console.log(userArray);
 
 // trips
 const n_trips = 20;
@@ -22,6 +23,7 @@ const fullTripArray = [];
 for (let i = 0; i < n_trips; i++) {
   fullTripArray.push(Trip());
 }
+console.log(fullTripArray);
 
 // activities
 const n_activities = 50;
@@ -43,21 +45,26 @@ for (let i = 0; i < fullTripArray.length; i++) {
 // comments
 const n_comments = 100;
 const commentArray = [];
-const fullTripUserArray = [];
+const tripUserArray = [];
 for (let i = 0; i < n_comments; i++) {
   let activityId = mathRandom(n_activities);
   let userId = mathRandom(n_users);
   commentArray.push(Comment(activityId, userId));
-  fullTripUserArray[activityArray[activityId].trip_id] = {
+  tripUserArray[activityArray[activityId].trip_id - 1] = {
     user_id: userId + 1,
     trip_id: activityArray[activityId].trip_id,
   };
 }
+console.log(tripUserArray);
 
-const tripUserArray = fullTripUserArray.reduce((accumulator, trip) => {
-  accumulator.push(trip);
-  return accumulator;
-}, []);
+for (let i = 0; i < n_trips; i++) {
+  if (tripUserArray[i] === undefined) {
+    let user_id = mathRandom(n_users) + 1;
+    tripUserArray[i] = { user_id, trip_id: i + 1 };
+  }
+}
+
+console.log(tripUserArray);
 
 module.exports = {
   userArray,

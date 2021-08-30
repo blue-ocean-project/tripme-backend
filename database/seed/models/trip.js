@@ -7,7 +7,7 @@ const delta = max - min;
 const maxDuration = 5; // days
 const day2ms = 1 * 24 * 60 * 60 * 1000;
 
-module.exports = (userId) => {
+module.exports = () => {
   const start = Math.random() * delta + min; // ms
   const duration = Math.random() * maxDuration * day2ms; // ms
   let city = lorem.generateWords(1);
