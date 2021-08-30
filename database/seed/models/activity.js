@@ -10,6 +10,7 @@ module.exports = (trip_id, tripStart, tripDuration) => {
   return {
     type: lorem.generateWords(1),
     name: lorem.generateWords(1),
+    description: lorem.generateParagraphs(1),
     date: new Date(tripStart + Math.random() * tripDuration), // date
     duration: Math.ceil(Math.random() * delta * hr2ms), // ms
     trip_id: trip_id + 1,

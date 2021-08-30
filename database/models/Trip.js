@@ -8,6 +8,11 @@ const Trip = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
     start_date: {
       type: DataTypes.STRING,
       allowNull: false,
