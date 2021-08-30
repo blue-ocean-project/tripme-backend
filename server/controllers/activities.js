@@ -1,4 +1,4 @@
-const models = require("../../database/models");
+const { Activity, Trip } = require("../../database/models");
 
 module.exports = {
   getActivities: (req, res) => {
