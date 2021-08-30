@@ -66,7 +66,7 @@ module.exports = {
   },
   checkSession: async (req, res) => {
     if (!req.cookies.session_id) {
-      res.status(401).send("Session Expired.");
+      res.status(404).send("Session not found.");
     } else {
       try {
         const session = await models.Session.findOne({
