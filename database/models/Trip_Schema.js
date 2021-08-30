@@ -123,25 +123,16 @@ const Comment = db.define(
       type: DataTypes.STRING(1234),
       allowNull: false,
     },
-    activity_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   },
   {
     tableName: "comments",
-    indexes: [
-      {
-        using: "BTREE",
-        fields: ["activity_id"],
-      },
-    ],
     updatedAt: "updated_at",
     createdAt: "created_at",
   }
 );
 
 Comment.belongsTo(User, { foreignKey: "user_id" });
-User.hasMany(Comment, { as: "user_id" });
+Comment.belongsTo(Activity, { foreignKey: "activity_id" });
+Activity.belongsTo(Trip, { foreignKey: "trip_id" });
 
 module.exports = { User, Comment, Trip, Activity };
