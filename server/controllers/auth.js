@@ -46,6 +46,7 @@ module.exports = {
                 expires: new Date(Date.now() + 8 * 3600000), // Cookie removed after 8 hours.
               })
               .json({
+                user_id: user.id,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 email: user.email,

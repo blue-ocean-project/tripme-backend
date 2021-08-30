@@ -39,6 +39,7 @@ module.exports = {
         const newUser = await models.User.create(user);
         console.log(newUser);
         res.status(201).json({
+          user_id: user.id,
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
