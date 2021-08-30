@@ -24,7 +24,7 @@ const User = db.define(
     verified: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: "pending",
     },
     first_name: {
       type: DataTypes.STRING,

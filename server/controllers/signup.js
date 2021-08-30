@@ -22,7 +22,6 @@ module.exports = {
           .status(401)
           .send("Sign Up Failed: Account with provided email already exists.");
       } else {
-        console.log(req.body);
         const salt = hashUtils.createRandom32String();
         const hashedPassword = hashUtils.createHash(req.body.password, salt);
         const user = {
@@ -34,7 +33,7 @@ module.exports = {
           salt: salt,
           profile_pic: req.body.profile_pic || "",
         };
-        if (req.body.verified) {
+        if (req.body.verified !== undefined) {
           user.verified = req.body.verified;
         }
         const newUser = await models.User.create(user);
@@ -54,28 +53,29 @@ module.exports = {
     }
   },
   verify: async (req, res) => {
-    res.status(200).json("signup verify");
-    if (!req.params.user_id || !req.paramskey) {
+    if (req.query.user_id === undefined || req.query.key === undefined) {
       res.status(400).send("Bad Request: Missing user_id or key");
     } else {
       const user = await models.User.findOne({
-        where: { id: req.params.user_id },
+        where: { id: req.query.user_id },
       });
       if (!user) {
         res.status(404).send("User not found");
-      } else if (user.verification !== "pending") {
+      } else if (user.verified === "verified") {
         res.status(403).send("User already verified");
       } else {
         const verification = await models.Verification.findOne({
-          where: { user_id: req.params.user_id },
+          where: { user_id: req.query.user_id },
         });
-        if (verification.key === req.params.key) {
+        if (!verification) {
+          res.status(404).send("No verification pending");
+        } else if (verification.key === req.query.key) {
           models.User.update(
-            { verification: "verified" },
-            { where: { id: req.params.user_id } }
+            { verified: "verified" },
+            { where: { id: req.query.user_id } }
           );
           models.Verification.destroy({
-            where: { user_id: req.params.user_id },
+            where: { user_id: req.query.user_id },
           });
           res.status(200).send("User verified");
 
@@ -113,19 +113,20 @@ module.exports = {
   },
   sendCode: async (req, res) => {
     if (
-      !req.params.user_id ||
-      !req.params.method ||
-      (req.params.method !== "email" && req.params.method !== "phone")
+      req.query.user_id === undefined ||
+      req.query.method === undefined ||
+      (req.query.method !== "email" && req.query.method !== "phone")
     ) {
       res.status(400).send("Missing Parameters");
     } else {
       try {
         const user = await models.User.findOne({
-          where: { id: req.params.user_id },
+          where: { id: req.query.user_id },
         });
         if (!user) {
           res.status(404).send("User not found");
-        } else if (user.verified === "verified") {
+        } else if (user.verified !== "pending") {
+          console.log(user);
           res.status(401).send("Account already verified");
         } else {
           const code = utils.generateCode(5);
@@ -136,16 +137,16 @@ module.exports = {
             user_id: user.id,
             key: code,
           });
-          if (req.params.method === "email") {
+          if (req.query.method === "email") {
             const info = await utils.transporter.sendMail({
               from: `"Trip Me" <tripmeblue@gmail.com>`,
-              to: req.body.contacts[i],
+              to: user.email,
               subject: "Trip Me: Activate your account!",
               text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${code}`,
               html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><form action="${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}"><input type="submit" value="Verify"></form><p>Verification Code: ${code}</p></body>`,
             });
             res.status(200).send("Verification Code Sent");
-          } else if (req.params.method === "phone") {
+          } else if (req.query.method === "phone") {
             //TODO: send phone verification
           }
         }

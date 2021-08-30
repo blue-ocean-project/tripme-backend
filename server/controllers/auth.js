@@ -22,7 +22,7 @@ module.exports = {
         if (user === null) {
           res.status(404).send("Login Failed: User does not exist.");
         } else if (user.verified === "pending") {
-          res.status(403).send("Login Success: Email not verified.");
+          res.status(403).send("Login Success: Account not verified.");
         } else {
           if (
             hashUtils.compareHash(req.body.password, user.password, user.salt)
