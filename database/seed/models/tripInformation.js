@@ -15,7 +15,6 @@ const userArray = [];
 for (let i = 0; i < n_users; i++) {
   userArray.push(User());
 }
-console.log(userArray);
 
 // trips
 const n_trips = 20;
@@ -23,7 +22,6 @@ const fullTripArray = [];
 for (let i = 0; i < n_trips; i++) {
   fullTripArray.push(Trip());
 }
-console.log(fullTripArray);
 
 // activities
 const n_activities = 50;
@@ -55,7 +53,6 @@ for (let i = 0; i < n_comments; i++) {
     trip_id: activityArray[activityId].trip_id,
   };
 }
-console.log(tripUserArray);
 
 for (let i = 0; i < n_trips; i++) {
   if (tripUserArray[i] === undefined) {
@@ -63,8 +60,6 @@ for (let i = 0; i < n_trips; i++) {
     tripUserArray[i] = { user_id, trip_id: i + 1 };
   }
 }
-
-console.log(tripUserArray);
 
 module.exports = {
   userArray,
