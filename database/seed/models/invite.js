@@ -1,5 +1,5 @@
 // const lorem = require('../config');
-const hash = require("../../../lib/hashUtils");
+const hash = require("../../../server/lib/hashUtils");
 
 module.exports = (trip_id) => {
   return {

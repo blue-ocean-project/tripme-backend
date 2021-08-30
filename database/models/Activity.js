@@ -4,10 +4,6 @@ const db = require("../index");
 const Activity = db.define(
   "Activity",
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-    },
     type: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -28,14 +24,6 @@ const Activity = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    createdAt: {
-      field: "created_at",
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      field: "updated_at",
-      type: Sequelize.DATE,
-    },
   },
   {
     tableName: "activities",
@@ -45,6 +33,8 @@ const Activity = db.define(
         fields: ["trip_id"],
       },
     ],
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 

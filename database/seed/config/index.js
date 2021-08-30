@@ -2,11 +2,11 @@ const { LoremIpsum } = require("lorem-ipsum");
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
-    max: 3,
+    max: 2,
     min: 1,
   },
   wordsPerSentence: {
-    max: 20,
+    max: 12,
     min: 4,
   },
 });

@@ -10,7 +10,7 @@ const Verification = require("./Verification");
 
 module.exports = {
   Comment,
-  Event,
+  Activity,
   Invite,
   Session,
   Trip,

@@ -13,34 +13,57 @@ const mathRandom = (n) => Math.floor(Math.random() * n);
 const n_users = 10;
 const userArray = [];
 for (let i = 0; i < n_users; i++) {
-  userArray.push(User(i));
+  userArray.push(User());
 }
-
-console.log(userArray);
 
 // trips
 const n_trips = 20;
-const tripArray = [];
+const fullTripArray = [];
 for (let i = 0; i < n_trips; i++) {
-  tripArray.push(Trip());
+  fullTripArray.push(Trip());
 }
 
 // activities
 const n_activities = 50;
 const activityArray = [];
+const tripActivityArray = [];
 for (let i = 0; i < n_activities; i++) {
   let tripId = mathRandom(n_trips);
-  let trip = tripArray[tripId];
+  let trip = fullTripArray[tripId];
   activityArray.push(Activity(tripId, trip.tripStartms, trip.tripDurationms));
+  tripActivityArray.push({ trip_id: tripId + 1, activity_id: i + 1 });
+}
+
+const tripArray = [];
+for (let i = 0; i < fullTripArray.length; i++) {
+  const { destination, start_date, end_date } = fullTripArray[i];
+  tripArray.push({ destination, start_date, end_date });
 }
 
 // comments
 const n_comments = 100;
 const commentArray = [];
+const fullTripUserArray = [];
 for (let i = 0; i < n_comments; i++) {
   let activityId = mathRandom(n_activities);
   let userId = mathRandom(n_users);
   commentArray.push(Comment(activityId, userId));
+  fullTripUserArray[activityArray[activityId].trip_id] = {
+    user_id: userId + 1,
+    trip_id: activityArray[activityId].trip_id,
+  };
 }
 
-module.exports = { userArray, tripArray, activityArray, commentArray };
+const tripUserArray = fullTripUserArray.reduce((accumulator, trip) => {
+  accumulator.push(trip);
+  return accumulator;
+}, []);
+
+module.exports = {
+  userArray,
+  tripArray,
+  activityArray,
+  commentArray,
+  tripActivityArray,
+  tripUserArray,
+};

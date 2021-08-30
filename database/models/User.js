@@ -8,7 +8,6 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
       unqiue: true,
-      primaryKey: true,
     },
     phone: {
       type: DataTypes.STRING,
@@ -25,7 +24,7 @@ const User = db.define(
     verified: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "pending",
+      defaultValue: false,
     },
     first_name: {
       type: DataTypes.STRING,
@@ -38,6 +37,7 @@ const User = db.define(
     profile_pic: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "",
     },
     availability: {
       type: DataTypes.ARRAY(DataTypes.STRING),

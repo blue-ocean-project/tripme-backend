@@ -1,4 +1,4 @@
-const hash = require("../../../lib/hashUtils");
+const hash = require("../../../server/lib/hashUtils");
 const lorem = require("../config");
 
 const phoneMin = 1000000000;
@@ -11,7 +11,6 @@ module.exports = () => {
     phone: Math.floor(Math.random() * phoneDelta + phoneMin),
     password: hash.createHash("password"),
     salt: hash.createHash("password"),
-    verified: false,
     first_name: lorem.generateWords(1),
     last_name: lorem.generateWords(1),
   };

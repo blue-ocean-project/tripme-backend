@@ -4,12 +4,8 @@ const db = require("../index");
 const Comment = db.define(
   "Comment",
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-    },
     body: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1234),
       allowNull: false,
     },
     activity_id: {
@@ -19,14 +15,6 @@ const Comment = db.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    createdAt: {
-      field: "created_at",
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      field: "updated_at",
-      type: Sequelize.DATE,
     },
   },
   {
@@ -41,6 +29,8 @@ const Comment = db.define(
         fields: ["user_id"],
       },
     ],
+    updatedAt: "updated_at",
+    createdAt: "created_at",
   }
 );
 
