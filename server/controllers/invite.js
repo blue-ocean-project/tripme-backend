@@ -29,10 +29,10 @@ module.exports = {
               from: `"Trip Me" <tripmeblue@gmail.com>`,
               to: req.body.contacts[i],
               subject: `${req.body.first_name} ${req.body.last_name} has invited you to a trip!`,
-              text: "Hello world?",
+              text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${code}`,
               html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>You have been invited to join a trip!</h1><form action="${config.clientUrl}/invite/${code}"><input type="submit" value="Accept Invitation"></form></body>`,
             });
-            console.log(info);
+
             await models.Invite.create({
               trip_id: req.body.trip_id,
               key: code,

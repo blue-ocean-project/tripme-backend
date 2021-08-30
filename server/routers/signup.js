@@ -6,6 +6,6 @@ const controllers = require("../controllers/signup");
 ================================ */
 router.post("/", controllers.signup);
 router.get("/verify", controllers.verify);
-router.get("/verify/code", controllers.code);
+router.get("/verify/sendCode", controllers.sendCode);
 
 module.exports = router;

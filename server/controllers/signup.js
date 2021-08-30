@@ -29,6 +29,7 @@ module.exports = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           email: req.body.email,
+          phone: req.body.phone || "",
           password: hashedPassword,
           salt: salt,
           profile_pic: req.body.profile_pic || "",
@@ -43,7 +44,7 @@ module.exports = {
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.email,
-          phone: "",
+          phone: user.phone,
           verified: user.verified,
           profile_pic: user.profile_pic,
         });
@@ -54,8 +55,103 @@ module.exports = {
   },
   verify: async (req, res) => {
     res.status(200).json("signup verify");
+    if (!req.params.user_id || !req.paramskey) {
+      res.status(400).send("Bad Request: Missing user_id or key");
+    } else {
+      const user = await models.User.findOne({
+        where: { id: req.params.user_id },
+      });
+      if (!user) {
+        res.status(404).send("User not found");
+      } else if (user.verification !== "pending") {
+        res.status(403).send("User already verified");
+      } else {
+        const verification = await models.Verification.findOne({
+          where: { user_id: req.params.user_id },
+        });
+        if (verification.key === req.params.key) {
+          models.User.update(
+            { verification: "verified" },
+            { where: { id: req.params.user_id } }
+          );
+          models.Verification.destroy({
+            where: { user_id: req.params.user_id },
+          });
+          res.status(200).send("User verified");
+
+          // IF AUTO LOGIN AFTER VERIFICATION
+          // let hash = "";
+          // do {
+          //   hash = hashUtils.createRandom32String();
+          // } while (
+          //   (await models.Session.findOne({
+          //     where: { session_hash: hash },
+          //   })) !== null
+          // );
+
+          // await models.Session.create({
+          //   session_hash: hash,
+          // });
+
+          // res.status(200).
+          // .cookie("session_id", hash, {
+          //   domain: serverConfig.clientUrl,
+          //   expires: new Date(Date.now() + 8 * 3600000), // Cookie removed after 8 hours.
+          // }).
+          // json({
+          //   user_id: user.id,
+          //   first_name: user.first_name,
+          //   last_name: user.last_name,
+          //   email: user.email,
+          //   phone: user.phone,
+          //   verified: "verified",
+          //   profile_pic: user.profile_pic,
+          // });
+        }
+      }
+    }
   },
-  code: async (req, res) => {
-    res.status(200).json("signup verify code");
+  sendCode: async (req, res) => {
+    if (
+      !req.params.user_id ||
+      !req.params.method ||
+      (req.params.method !== "email" && req.params.method !== "phone")
+    ) {
+      res.status(400).send("Missing Parameters");
+    } else {
+      try {
+        const user = await models.User.findOne({
+          where: { id: req.params.user_id },
+        });
+        if (!user) {
+          res.status(404).send("User not found");
+        } else if (user.verified === "verified") {
+          res.status(401).send("Account already verified");
+        } else {
+          const code = utils.generateCode(5);
+          await models.Verification.destroy({
+            where: { user_id: user.id },
+          });
+          await utils.Verification.create({
+            user_id: user.id,
+            key: code,
+          });
+          if (req.params.method === "email") {
+            const info = await utils.transporter.sendMail({
+              from: `"Trip Me" <tripmeblue@gmail.com>`,
+              to: req.body.contacts[i],
+              subject: "Trip Me: Activate your account!",
+              text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${code}`,
+              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><form action="${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}"><input type="submit" value="Verify"></form><p>Verification Code: ${code}</p></body>`,
+            });
+            res.status(200).send("Verification Code Sent");
+          } else if (req.params.method === "phone") {
+            //TODO: send phone verification
+          }
+        }
+      } catch (err) {
+        res.status(500).send("Internal Server Error: " + err);
+      }
+    }
   },
 };
