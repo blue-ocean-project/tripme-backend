@@ -12,6 +12,15 @@ const Activity = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
+    description: {
+      type: DataTypes.STRING(1234),
+      allowNull: false,
+    },
     date: {
       type: DataTypes.DATE,
       allowNull: false,
