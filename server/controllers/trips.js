@@ -61,33 +61,62 @@ module.exports = {
   tripDetail: (req, res) => {
     const { trip_id } = req.params;
 
-    getActivities(trip_id)
-      .then((activities) => {
-        Trips_Users.findAll({
-          attributes: ["user_id"],
-          where: {
-            trip_id,
-          },
-        })
-          .then((userIdArray) => {
-            let usersOnly = [];
-            userIdArray.forEach((userId) => {
-              usersOnly.push(
-                User.findAll({
-                  where: { id: userId.dataValues.user_id },
-                }).then((user) => user)
-              );
-            });
+    Trip.findAll({
+      attributes: [
+        "id",
+        "destination",
+        "name",
+        "image_url",
+        "start_date",
+        "end_date",
+      ],
+      where: { id: trip_id },
+    })
+      .then((tripInfo) => {
+        getActivities(trip_id)
+          .then((activities) => {
+            Trips_Users.findAll({
+              attributes: ["user_id"],
+              where: {
+                trip_id,
+              },
+            })
+              .then((userIdArray) => {
+                let usersOnly = [];
+                userIdArray.forEach((userId) => {
+                  usersOnly.push(
+                    User.findAll({
+                      where: { id: userId.dataValues.user_id },
+                      attributes: [
+                        "id",
+                        "first_name",
+                        "last_name",
+                        "profile_pic",
+                      ],
+                    }).then((user) => user)
+                  );
+                });
 
-            Promise.all(usersOnly).then((users) => {
-              res.status(200).json({ trip_id, activities, users: users[0] });
-            });
+                Promise.all(usersOnly).then((users) => {
+                  const outputObj = tripInfo[0];
+                  res
+                    .status(200)
+                    .json({
+                      ...outputObj.dataValues,
+                      activities,
+                      users: users[0],
+                    });
+                });
+              })
+              .catch((error) => {
+                throw error;
+              });
           })
-          .catch((error) => {
-            throw error;
-          });
+          .catch((error) => res.status(404).send(error));
       })
-      .catch((error) => res.status(404).send(error));
+      .catch((error) => {
+        res.status(500).send("Server error.");
+      });
   },
   updateTrip: async (req, res) => {
     const allowedFields = [
