@@ -88,7 +88,34 @@ module.exports = {
       })
       .catch((error) => res.status(404).send(error));
   },
-  updateTrip: (req, res) => {
-    res.status(200).json("edit trip");
+  updateTrip: async (req, res) => {
+    const allowedFields = [
+      "name",
+      "destination",
+      "image_url",
+      "start_date",
+      "end_date",
+    ];
+    try {
+      const trip = await Trip.findOne({
+        where: { id: req.params.trip_id },
+      });
+      const changes = {};
+      if (trip) {
+        for (const field in req.body) {
+          if (allowedFields.includes(field)) {
+            changes[field] = req.body[field];
+          }
+        }
+        await Trip.update(changes, {
+          where: { id: req.params.trip_id },
+        });
+        res.sendStatus(204);
+      } else {
+        res.status(404).send("Trip not found");
+      }
+    } catch (err) {
+      res.status(500).send("Internal Server Error: " + err);
+    }
   },
 };
