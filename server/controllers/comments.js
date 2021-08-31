@@ -25,7 +25,28 @@ module.exports = {
         res.status(404).send(error);
       });
   },
-  updateComment: (req, res) => {
-    res.status(200).json("update comment");
+  updateComment: async (req, res) => {
+    const allowedFields = ["body", "activity_id", "user_id"];
+    try {
+      const comment = await Comment.findOne({
+        where: { id: req.params.comment_id },
+      });
+      const changes = {};
+      if (comment) {
+        for (const field in req.body) {
+          if (allowedFields.includes(field)) {
+            changes[field] = req.body[field];
+          }
+        }
+        await Comment.update(changes, {
+          where: { id: req.params.comment_id },
+        });
+        res.sendStatus(204);
+      } else {
+        res.status(404).send("Comment not found");
+      }
+    } catch (err) {
+      res.status(500).send("Internal Server Error: " + err);
+    }
   },
 };

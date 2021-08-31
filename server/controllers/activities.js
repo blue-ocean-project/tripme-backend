@@ -27,7 +27,35 @@ module.exports = {
         res.status(404).send(error);
       });
   },
-  updateActivity: (req, res) => {
-    res.status(200).json("update activity");
+  updateActivity: async (req, res) => {
+    const allowedFields = [
+      "type",
+      "title",
+      "description",
+      "image_url",
+      "start_time",
+      "end_time",
+    ];
+    try {
+      const activity = await Activity.findOne({
+        where: { id: req.params.activity_id },
+      });
+      const changes = {};
+      if (activity) {
+        for (const field in req.body) {
+          if (allowedFields.includes(field)) {
+            changes[field] = req.body[field];
+          }
+        }
+        await Activity.update(changes, {
+          where: { id: req.params.activity_id },
+        });
+        res.sendStatus(204);
+      } else {
+        res.status(404).send("Activity not found");
+      }
+    } catch (err) {
+      res.status(500).send("Internal Server Error: " + err);
+    }
   },
 };
