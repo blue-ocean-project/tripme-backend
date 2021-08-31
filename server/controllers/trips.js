@@ -18,6 +18,7 @@ module.exports = {
             Trip.findAll({
               attributes: [
                 "id",
+                "name",
                 "destination",
                 "image_url",
                 "start_date",

@@ -4,10 +4,16 @@ module.exports = {
   getComments: async (req, res) => {
     const { activity_id } = req.params;
     Comment.findAll({
+      attributes: ["id", "body", "activity_id"],
       where: {
         activity_id,
       },
-      include: User,
+      include: [
+        {
+          model: User,
+          attributes: ["first_name", "last_name", "profile_pic"],
+        },
+      ],
     })
       .then((comments) => {
         res.status(200).json(comments);
