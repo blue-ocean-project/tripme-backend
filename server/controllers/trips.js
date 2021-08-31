@@ -1,5 +1,6 @@
 const { Activity, Comment, User, Trip } = require("../../database/models");
 const { Trips_Users } = require("../../database/models");
+const getActivities = require("../lib/getActivity");
 
 module.exports = {
   getTrips: (req, res) => {
@@ -50,7 +51,35 @@ module.exports = {
     res.status(200).json("create trip");
   },
   tripDetail: (req, res) => {
-    res.status(200).json("get trip detail");
+    const { trip_id } = req.params;
+
+    getActivities(trip_id)
+      .then((activities) => {
+        Trips_Users.findAll({
+          attributes: ["user_id"],
+          where: {
+            trip_id,
+          },
+        })
+          .then((userIdArray) => {
+            let usersOnly = [];
+            userIdArray.forEach((userId) => {
+              usersOnly.push(
+                User.findAll({
+                  where: { id: userId.dataValues.user_id },
+                }).then((user) => user)
+              );
+            });
+
+            Promise.all(usersOnly).then((users) => {
+              res.status(200).json({ trip_id, activities, users: users[0] });
+            });
+          })
+          .catch((error) => {
+            throw error;
+          });
+      })
+      .catch((error) => res.status(404).send(error));
   },
   updateTrip: (req, res) => {
     res.status(200).json("edit trip");
