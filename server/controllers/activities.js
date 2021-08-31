@@ -10,14 +10,15 @@ module.exports = {
   },
   createActivity: (req, res) => {
     const { trip_id } = req.params;
-    const { type, name, image_url, description, date, duration } = req.body;
+    const { type, title, image_url, description, start_date, end_date } =
+      req.body;
     Activity.create({
-      type,
-      name,
-      image_url,
-      description,
-      date,
-      duration,
+      type: type || "",
+      title: title || "",
+      image_url: image_url || "",
+      description: description || "",
+      start_date: start_date || "",
+      end_date: end_date || "",
       trip_id,
     })
       .then((result) => {
