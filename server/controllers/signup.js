@@ -146,7 +146,7 @@ module.exports = {
               to: user.email,
               subject: "Trip Me: Activate your account!",
               text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${code}`,
-              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><form action="${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}"><input type="submit" value="Verify"></form><p>Verification Code: ${code}</p></body>`,
+              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><a href="${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}"><button>Verify Account</button></a><p>Verification Code: ${code}</p></body>`,
             });
             res.status(200).send("Verification Code Sent");
           } else if (req.query.method === "phone") {
