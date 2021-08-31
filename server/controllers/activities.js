@@ -9,7 +9,14 @@ module.exports = {
       .catch((error) => res.status(404).send(error));
   },
   createActivity: (req, res) => {
-    res.status(200).json("create activity");
+    const { type, name, image_url, description, date, duration } = req.body;
+    Activity.create({ type, name, image_url, description, date, duration })
+      .then((result) => {
+        res.status(201).send({ id: result.dataValues.id });
+      })
+      .catch((error) => {
+        res.status(404).send(error);
+      });
   },
   updateActivity: (req, res) => {
     res.status(200).json("update activity");
