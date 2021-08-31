@@ -10,7 +10,7 @@ module.exports = {
       include: User,
     })
       .then((comments) => {
-        delete res.status(200).json(comments);
+        res.status(200).json(comments);
       })
       .catch((error) => res.status(404).send(error));
   },
