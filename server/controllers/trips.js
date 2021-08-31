@@ -4,7 +4,7 @@ const getActivities = require("../lib/getActivity");
 
 module.exports = {
   getTrips: (req, res) => {
-    const { user_id } = req.body;
+    const { user_id } = req.query;
     Trips_Users.findAll({
       attributes: ["trip_id"],
       where: {

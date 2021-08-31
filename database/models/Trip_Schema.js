@@ -60,6 +60,9 @@ const Trip = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    name: {
+      type: DataTypes.STRING,
+    },
     image_url: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -88,7 +91,7 @@ const Activity = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -101,13 +104,11 @@ const Activity = db.define(
       type: DataTypes.STRING(1234),
       allowNull: false,
     },
-    date: {
+    start_time: {
       type: DataTypes.DATE,
-      allowNull: false,
     },
-    duration: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    end_time: {
+      type: DataTypes.DATE,
     },
   },
   {

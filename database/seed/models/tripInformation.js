@@ -3,10 +3,6 @@ const Trip = require("./trip");
 const Activity = require("./activity");
 const Comment = require("./comment");
 
-// const Verification = require("./verification");
-// const Session = require("./session");
-// const Invite = require("./invite");
-
 const mathRandom = (n) => Math.floor(Math.random() * n);
 
 // users
