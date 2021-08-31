@@ -17,7 +17,7 @@ module.exports = () => {
   return {
     tripStartms: start,
     tripDurationms: duration,
-    name: lorem.words(4),
+    name: lorem.generateWords(4),
     destination: `${city}, ${country}`,
     start_date: new Date(start),
     end_date: new Date(start + duration),
