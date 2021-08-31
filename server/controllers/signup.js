@@ -1,6 +1,7 @@
 const models = require("../../database/models");
 const utils = require("../lib/utils.js");
 const hashUtils = require("../lib/hashUtils.js");
+const config = require("../config/config.server");
 module.exports = {
   signup: async (req, res) => {
     // TODO: Handle trip and key parameters
@@ -77,7 +78,7 @@ module.exports = {
           models.Verification.destroy({
             where: { user_id: req.query.user_id },
           });
-          res.status(200).send("User verified");
+          res.status(200).send("Account verified");
 
           // IF AUTO LOGIN AFTER VERIFICATION
           // let hash = "";
@@ -107,6 +108,8 @@ module.exports = {
           //   verified: "verified",
           //   profile_pic: user.profile_pic,
           // });
+        } else {
+          res.status(401).send("Invalid key");
         }
       }
     }
@@ -133,7 +136,7 @@ module.exports = {
           await models.Verification.destroy({
             where: { user_id: user.id },
           });
-          await utils.Verification.create({
+          await models.Verification.create({
             user_id: user.id,
             key: code,
           });
@@ -148,6 +151,16 @@ module.exports = {
             res.status(200).send("Verification Code Sent");
           } else if (req.query.method === "phone") {
             //TODO: send phone verification
+            if (user.phone !== "") {
+              const msg = await utils.twilio.messages.create({
+                body: `Your Trip Me Verification Code is: ${code}\n\nOr use the following link to verify: ${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}`,
+                from: `${config.twilioNumber}`,
+                to: `+1${user.phone}`,
+              });
+              //console.log(msg);
+            } else {
+              res.status(404).send("Phone number not found");
+            }
           }
         }
       } catch (err) {
