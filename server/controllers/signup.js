@@ -157,6 +157,7 @@ module.exports = {
                 from: `${config.twilioNumber}`,
                 to: `+1${user.phone}`,
               });
+              res.status(200).send("Verification Code Sent");
               //console.log(msg);
             } else {
               res.status(404).send("Phone number not found");
