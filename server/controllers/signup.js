@@ -40,13 +40,13 @@ module.exports = {
         const newUser = await models.User.create(user);
         console.log(newUser);
         res.status(201).json({
-          user_id: user.id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          phone: user.phone,
-          verified: user.verified,
-          profile_pic: user.profile_pic,
+          user_id: newUser.id,
+          first_name: newUser.first_name,
+          last_name: newUser.last_name,
+          email: newUser.email,
+          phone: newUser.phone,
+          verified: newUser.verified,
+          profile_pic: newUser.profile_pic,
         });
       }
     } catch (err) {
@@ -100,13 +100,13 @@ module.exports = {
           //   expires: new Date(Date.now() + 8 * 3600000), // Cookie removed after 8 hours.
           // }).
           // json({
-          //   user_id: user.id,
-          //   first_name: user.first_name,
-          //   last_name: user.last_name,
-          //   email: user.email,
-          //   phone: user.phone,
+          //   user_id: newUser.id,
+          //   first_name: newUser.first_name,
+          //   last_name: newUser.last_name,
+          //   email: newUser.email,
+          //   phone: newUser.phone,
           //   verified: "verified",
-          //   profile_pic: user.profile_pic,
+          //   profile_pic: newUser.profile_pic,
           // });
         } else {
           res.status(401).send("Invalid key");
