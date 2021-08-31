@@ -48,7 +48,14 @@ module.exports = {
       .catch((error) => res.status(404).send(error));
   },
   createTrip: (req, res) => {
-    res.status(200).json("create trip");
+    const { user_id, destination, start_date, end_date } = req.body;
+    Trip.create({ user_id, destination, start_date, end_date })
+      .then((result) => {
+        res.status(201).send({ id: result.dataValues.id });
+      })
+      .catch((error) => {
+        res.status(404).send(error);
+      });
   },
   tripDetail: (req, res) => {
     const { trip_id } = req.params;
