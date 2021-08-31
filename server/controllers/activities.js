@@ -9,8 +9,17 @@ module.exports = {
       .catch((error) => res.status(404).send(error));
   },
   createActivity: (req, res) => {
+    const { trip_id } = req.params;
     const { type, name, image_url, description, date, duration } = req.body;
-    Activity.create({ type, name, image_url, description, date, duration })
+    Activity.create({
+      type,
+      name,
+      image_url,
+      description,
+      date,
+      duration,
+      trip_id,
+    })
       .then((result) => {
         res.status(201).send({ id: result.dataValues.id });
       })

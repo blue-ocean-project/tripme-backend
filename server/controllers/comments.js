@@ -15,7 +15,15 @@ module.exports = {
       .catch((error) => res.status(404).send(error));
   },
   createComment: (req, res) => {
-    res.status(200).json("create comment");
+    const { activity_id } = req.params;
+    const { body, user_id } = req.body;
+    Comment.create({ body, user_id, activity_id })
+      .then((result) => {
+        res.status(201).send({ id: result.dataValues.id });
+      })
+      .catch((error) => {
+        res.status(404).send(error);
+      });
   },
   updateComment: (req, res) => {
     res.status(200).json("update comment");
