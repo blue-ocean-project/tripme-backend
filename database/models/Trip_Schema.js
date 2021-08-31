@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../index");
+const Trips_Users = require("./Trips_Users");
 
 const User = db.define(
   "User",
@@ -134,5 +135,5 @@ const Comment = db.define(
 Comment.belongsTo(User, { foreignKey: "user_id" });
 Comment.belongsTo(Activity, { foreignKey: "activity_id" });
 Activity.belongsTo(Trip, { foreignKey: "trip_id" });
-
+User.belongsTo(Trips_Users, { foreignKey: "user_id" });
 module.exports = { User, Comment, Trip, Activity };
