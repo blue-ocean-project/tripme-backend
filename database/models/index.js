@@ -1,4 +1,4 @@
-const { User, Comment, Trip, Activity } = require("./Trip_Schema");
+const { User, Comment, Trip, Activity, Checklist } = require("./Trip_Schema");
 const Invite = require("./Invite");
 const Session = require("./Session");
 const Trips_Activities = require("./Trips_Activities");
@@ -15,4 +15,5 @@ module.exports = {
   Trips_Activities,
   Trips_Users,
   Verification,
+  Checklist,
 };

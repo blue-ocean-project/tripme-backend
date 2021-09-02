@@ -1,4 +1,11 @@
-const { Activity, Comment, User, Trip } = require("../../database/models");
+var Op = require("sequelize").Op;
+const {
+  Activity,
+  Comment,
+  User,
+  Trip,
+  Checklist,
+} = require("../../database/models");
 const { Trips_Users } = require("../../database/models");
 const getActivities = require("../lib/getActivity");
 
@@ -68,7 +75,7 @@ module.exports = {
   tripDetail: (req, res) => {
     const { trip_id } = req.params;
 
-    Trip.findAll({
+    Trip.findOne({
       attributes: [
         "id",
         "destination",
@@ -89,29 +96,43 @@ module.exports = {
               },
             })
               .then((userIdArray) => {
-                let usersOnly = [];
-                userIdArray.forEach((userId) => {
-                  usersOnly.push(
-                    User.findAll({
-                      where: { id: userId.dataValues.user_id },
-                      attributes: [
-                        "id",
-                        "first_name",
-                        "last_name",
-                        "profile_pic",
-                      ],
-                    }).then((user) => user)
-                  );
+                const userIdList = userIdArray.reduce((accumulator, userId) => {
+                  accumulator.push(userId.dataValues.user_id);
+                  return accumulator;
+                }, []);
+
+                const userList = User.findAll({
+                  where: {
+                    id: {
+                      [Op.in]: userIdList,
+                    },
+                  },
+                  attributes: ["id", "first_name", "last_name", "profile_pic"],
+                }).then((user) => user);
+
+                const checklistList = Checklist.findAll({
+                  attributes: ["id", "item", "checked"],
+                  where: {
+                    trip_id,
+                  },
                 });
 
-                Promise.all(usersOnly).then((users) => {
-                  const outputObj = tripInfo[0];
-                  res.status(200).json({
-                    ...outputObj.dataValues,
-                    activities,
-                    users: users[0],
+                Promise.all([userList, checklistList])
+                  .then((usersChecklist) => {
+                    const users = usersChecklist[0];
+                    const checklist = usersChecklist[1];
+
+                    const outputObj = tripInfo.dataValues;
+                    res.status(200).json({
+                      ...outputObj.dataValues,
+                      activities,
+                      users,
+                      checklist,
+                    });
+                  })
+                  .catch((error) => {
+                    throw error;
                   });
-                });
               })
               .catch((error) => {
                 throw error;

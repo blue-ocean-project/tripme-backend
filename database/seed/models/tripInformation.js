@@ -2,6 +2,7 @@ const User = require("./user");
 const Trip = require("./trip");
 const Activity = require("./activity");
 const Comment = require("./comment");
+const Checklist = require("./checklist");
 
 const mathRandom = (n) => Math.floor(Math.random() * n);
 
@@ -32,8 +33,8 @@ for (let i = 0; i < n_activities; i++) {
 
 const tripArray = [];
 for (let i = 0; i < fullTripArray.length; i++) {
-  const { destination, start_date, end_date } = fullTripArray[i];
-  tripArray.push({ destination, start_date, end_date });
+  const { destination, name, start_date, end_date } = fullTripArray[i];
+  tripArray.push({ destination, name, start_date, end_date });
 }
 
 // comments
@@ -57,6 +58,14 @@ for (let i = 0; i < n_trips; i++) {
   }
 }
 
+// checklist
+const n_checklist = 100;
+const checklistArray = [];
+for (let i = 0; i < n_checklist; i++) {
+  let trip_id = mathRandom(n_trips);
+  checklistArray.push(Checklist(trip_id));
+}
+
 module.exports = {
   userArray,
   tripArray,
@@ -64,4 +73,5 @@ module.exports = {
   commentArray,
   tripActivityArray,
   tripUserArray,
+  checklistArray,
 };

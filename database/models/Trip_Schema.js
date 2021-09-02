@@ -133,8 +133,30 @@ const Comment = db.define(
   }
 );
 
+const Checklist = db.define(
+  "Checklist",
+  {
+    checked: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    item: {
+      type: DataTypes.STRING(1234),
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "checklists",
+    updatedAt: "updated_at",
+    createdAt: "created_at",
+  }
+);
+
 Comment.belongsTo(User, { foreignKey: "user_id" });
 Comment.belongsTo(Activity, { foreignKey: "activity_id" });
 Activity.belongsTo(Trip, { foreignKey: "trip_id" });
 User.belongsTo(Trips_Users, { foreignKey: "user_id" });
-module.exports = { User, Comment, Trip, Activity };
+Checklist.belongsTo(Trip, { foreignKey: "trip_id" });
+
+module.exports = { User, Comment, Trip, Activity, Checklist };

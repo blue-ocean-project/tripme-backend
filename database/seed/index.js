@@ -10,6 +10,7 @@ const sync = async () => {
     tripInformation.tripActivityArray
   );
   await DatabaseModels.Trips_Users.bulkCreate(tripInformation.tripUserArray);
+  await DatabaseModels.Checklist.bulkCreate(tripInformation.checklistArray);
 };
 
 sync();
