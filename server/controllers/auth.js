@@ -11,7 +11,7 @@ module.exports = {
       req.body.password === undefined ||
       utils.validateEmail(req.body.email) === false
     ) {
-      res.status(400).send("Login Failed: Invalid Syntax.");
+      res.status(400).send("Login Failed: Invalid Email/Password.");
     } else {
       try {
         const user = await models.User.findOne({
