@@ -78,7 +78,7 @@ module.exports = {
           models.Verification.destroy({
             where: { user_id: req.query.user_id },
           });
-          res.status(200).send("Account verified");
+          res.status(301).redirect(`${config.clientUrl}/login`);
 
           // IF AUTO LOGIN AFTER VERIFICATION
           // let hash = "";
