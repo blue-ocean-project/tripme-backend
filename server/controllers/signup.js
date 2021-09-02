@@ -10,7 +10,9 @@ module.exports = {
         !req.body.first_name === undefined ||
         req.body.last_name === undefined ||
         req.body.email === undefined ||
+        req.body.phone === undefined ||
         req.body.password === undefined ||
+        utils.validatePhone(utils.parsePhone(req.body.phone)) === false ||
         utils.validateEmail(req.body.email) === false
       ) {
         res
@@ -29,7 +31,7 @@ module.exports = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           email: req.body.email,
-          phone: req.body.phone || "",
+          phone: utils.parsePhone(req.body.phone),
           password: hashedPassword,
           salt: salt,
           profile_pic: req.body.profile_pic || "",
