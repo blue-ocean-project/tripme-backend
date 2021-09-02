@@ -52,7 +52,14 @@ module.exports = {
     const { user_id, destination, start_date, end_date } = req.body;
     Trip.create({ user_id, destination, start_date, end_date })
       .then((result) => {
-        res.status(201).send({ id: result.dataValues.id });
+        const trip_id = result.dataValues.id;
+        Trips_Users.create({ user_id, trip_id })
+          .then((result) => {
+            res.status(201).send({ user_id, trip_id });
+          })
+          .catch((error) => {
+            throw error;
+          });
       })
       .catch((error) => {
         res.status(404).send(error);
@@ -99,13 +106,11 @@ module.exports = {
 
                 Promise.all(usersOnly).then((users) => {
                   const outputObj = tripInfo[0];
-                  res
-                    .status(200)
-                    .json({
-                      ...outputObj.dataValues,
-                      activities,
-                      users: users[0],
-                    });
+                  res.status(200).json({
+                    ...outputObj.dataValues,
+                    activities,
+                    users: users[0],
+                  });
                 });
               })
               .catch((error) => {
