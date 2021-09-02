@@ -145,15 +145,15 @@ module.exports = {
               from: `"Trip Me" <tripmeblue@gmail.com>`,
               to: user.email,
               subject: "Trip Me: Activate your account!",
-              text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${code}`,
-              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><a href="${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}">Verify Account</a><p>Verification Code: ${code}</p></body>`,
+              text: `Your Trip Me Verification Code is: ${code}\n\nOr use the following link to verify: ${config.serverUrl}/signup/verify?user_id=${user.id}&key=${code}`,
+              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>Click verify to activate your account:</h1><a href="${config.serverUrl}/signup/verify?user_id=${user.id}&key=${code}">Verify Account</a><p>Verification Code: ${code}</p></body>`,
             });
             res.status(200).send("Verification Code Sent");
           } else if (req.query.method === "phone") {
             //TODO: send phone verification
             if (user.phone !== "") {
               const msg = await utils.twilio.messages.create({
-                body: `Your Trip Me Verification Code is: ${code}\n\nOr use the following link to verify: ${config.clientUrl}/signup/verify?user_id=${user.id}&key=${code}`,
+                body: `Your Trip Me Verification Code is: ${code}\n\nOr use the following link to verify: ${config.serverUrl}/signup/verify?user_id=${user.id}&key=${code}`,
                 from: `${config.twilioNumber}`,
                 to: `+1${user.phone}`,
               });
