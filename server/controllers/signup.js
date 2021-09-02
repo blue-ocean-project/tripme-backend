@@ -38,7 +38,7 @@ module.exports = {
           user.verified = req.body.verified;
         }
         const newUser = await models.User.create(user);
-        console.log(newUser);
+        // console.log(newUser);
         res.status(201).json({
           user_id: newUser.id,
           first_name: newUser.first_name,
@@ -129,7 +129,7 @@ module.exports = {
         if (!user) {
           res.status(404).send("User not found");
         } else if (user.verified !== "pending") {
-          console.log(user);
+          // console.log(user);
           res.status(401).send("Account already verified");
         } else {
           const code = utils.generateCode(5);
