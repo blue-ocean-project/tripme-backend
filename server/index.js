@@ -14,9 +14,13 @@ const PORT = 3000;
 const squawk = (req, res, next) => {
   const body = JSON.stringify(req.body);
   console.log(
-    `${moment(new Date()).format("M/D h:mma")} ${req.method} ${req.originalUrl}`
+    `${moment(new Date() - 7 * 60 * 60 * 1000).format("M/D h:mma")} ${
+      req.method
+    } ${req.originalUrl}`
   );
-  console.log(`\t${body}`);
+  if (body) {
+    console.log(`\t${body}`);
+  }
   next();
 };
 
