@@ -57,7 +57,6 @@ module.exports = {
   },
   createTrip: (req, res) => {
     const { user_id, destination, start_date, end_date } = req.body;
-    console.log("create trip user_id: ", user_id);
     Trip.create({ user_id, destination, start_date, end_date })
       .then((result) => {
         const trip_id = result.dataValues.id;
@@ -75,7 +74,6 @@ module.exports = {
   },
   tripDetail: (req, res) => {
     const { trip_id } = req.params;
-    console.log("detail for trip_id: ", trip_id);
     Trip.findOne({
       attributes: [
         "id",

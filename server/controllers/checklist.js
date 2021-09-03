@@ -4,7 +4,6 @@ const Sequelize = require("sequelize");
 module.exports = {
   getChecklist: (req, res) => {
     const { trip_id } = req.params;
-    console.log(trip_id);
     Checklist.findAll({
       attributes: ["id", "item", "checked"],
       where: {
