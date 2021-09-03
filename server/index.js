@@ -12,9 +12,11 @@ const HOST = "0.0.0.0";
 const PORT = 3000;
 
 const squawk = (req, res, next) => {
+  const body = JSON.stringify(req.body);
   console.log(
     `${moment(new Date()).format("M/D h:mma")} ${req.method} ${req.originalUrl}`
   );
+  console.log(`\t${body}`);
   next();
 };
 
