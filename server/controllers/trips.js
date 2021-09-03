@@ -121,13 +121,23 @@ module.exports = {
                   .then((usersChecklist) => {
                     const users = usersChecklist[0];
                     const checklist = usersChecklist[1];
-                    const outputObj = tripInfo.dataValues;
-                    res.status(200).json({
-                      ...outputObj,
-                      activities,
-                      users,
-                      checklist,
-                    });
+                    if (tripInfo.dataValues) {
+                      const outputObj = tripInfo.dataValues;
+                      res.status(200).json({
+                        ...outputObj,
+                        activities,
+                        users,
+                        checklist,
+                      });
+                    } else {
+                      const outputObj = {};
+                      res.status(200).json({
+                        ...outputObj,
+                        activities,
+                        users,
+                        checklist,
+                      });
+                    }
                   })
                   .catch((error) => {
                     throw error;
