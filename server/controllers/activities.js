@@ -1,4 +1,5 @@
 const { Activity, Comment, User } = require("../../database/models");
+const Trips_Activities = require("../../database/models/Trips_Activities");
 const getActivities = require("../lib/getActivity");
 
 module.exports = {
@@ -22,7 +23,17 @@ module.exports = {
       trip_id,
     })
       .then((result) => {
-        res.status(201).send({ id: result.dataValues.id });
+        const activity_id = result.dataValues.id;
+        Trips_Activities.create({
+          trip_id,
+          activity_id,
+        })
+          .then((result) => {
+            res.status(201).send({ activity_id });
+          })
+          .catch((error) => {
+            throw error;
+          });
       })
       .catch((error) => {
         res.status(404).send(error);
