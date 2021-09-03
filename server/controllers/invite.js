@@ -71,11 +71,16 @@ module.exports = {
         const invite = await models.Invite.findOne({
           where: { trip_id: req.params.trip_id, key: req.query.key },
         });
+        const trip = await models.Trips_Users.findOne({
+          where: { trip_id: req.params.trip_id, user_id: req.body.user_id },
+        });
         if (invite) {
-          await models.Trips_Users.create({
-            trip_id: req.params.trip_id,
-            user_id: req.body.user_id,
-          });
+          if (!trip) {
+            await models.Trips_Users.create({
+              trip_id: req.params.trip_id,
+              user_id: req.body.user_id,
+            });
+          }
           await models.Invite.destroy({
             where: { id: invite.id },
           });
