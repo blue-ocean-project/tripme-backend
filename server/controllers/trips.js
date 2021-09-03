@@ -121,10 +121,9 @@ module.exports = {
                   .then((usersChecklist) => {
                     const users = usersChecklist[0];
                     const checklist = usersChecklist[1];
-
                     const outputObj = tripInfo.dataValues;
                     res.status(200).json({
-                      ...outputObj.dataValues,
+                      ...outputObj,
                       activities,
                       users,
                       checklist,
