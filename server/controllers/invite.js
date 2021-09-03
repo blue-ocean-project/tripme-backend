@@ -29,8 +29,8 @@ module.exports = {
               from: `"Trip Me" <tripmeblue@gmail.com>`,
               to: req.body.contacts[i],
               subject: `Trip.Me: ${req.body.first_name} ${req.body.last_name} has invited you to a trip!`,
-              text: `You have been invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}?key=${code}`,
-              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>You have been invited to join a trip on Trip.Me!</h1><p>Click on the following link to accept the invitation:</p><a href="${config.clientUrl}/?trip=${req.body.trip_id}?key=${code}">Accept Invitation</a></body>`,
+              text: `You have been invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}`,
+              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>You have been invited to join a trip on Trip.Me!</h1><p>Click on the following link to accept the invitation:</p><a href="${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}">Accept Invitation</a></body>`,
             });
 
             await models.Invite.create({
@@ -41,7 +41,7 @@ module.exports = {
             utils.validatePhone(utils.parsePhone(req.body.contacts[i]))
           ) {
             const msg = await utils.twilio.messages.create({
-              body: `${req.body.first_name} ${req.body.last_name} has invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}?key=${code}`,
+              body: `${req.body.first_name} ${req.body.last_name} has invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}`,
               from: `${config.twilioNumber}`,
               to: `+1${utils.parsePhone(req.body.contacts[i])}`,
             });
