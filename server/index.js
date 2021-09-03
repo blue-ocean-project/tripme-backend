@@ -18,8 +18,8 @@ const squawk = (req, res, next) => {
       req.method
     } ${req.originalUrl}`
   );
-  if (body) {
-    console.log(`\t${body}`);
+  if (Object.keys(body).length > 0) {
+    console.log(`\tbody: ${body}`);
   }
   next();
 };
