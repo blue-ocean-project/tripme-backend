@@ -10,9 +10,7 @@ module.exports = {
         !req.body.first_name === undefined ||
         req.body.last_name === undefined ||
         req.body.email === undefined ||
-        req.body.phone === undefined ||
         req.body.password === undefined ||
-        utils.validatePhone(utils.parsePhone(req.body.phone)) === false ||
         utils.validateEmail(req.body.email) === false
       ) {
         res
@@ -31,13 +29,19 @@ module.exports = {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           email: req.body.email,
-          phone: utils.parsePhone(req.body.phone),
           password: hashedPassword,
           salt: salt,
           profile_pic: req.body.profile_pic || "",
         };
         if (req.body.verified !== undefined) {
           user.verified = req.body.verified;
+        }
+        if (req.body.phone) {
+          if (utils.validatePhone(utils.parsePhone(req.body.phone))) {
+            user.phone = utils.parsePhone(req.body.phone);
+          } else {
+            return res.status(400).send("Invalid Phone Number");
+          }
         }
         const newUser = await models.User.create(user);
         // console.log(newUser);
