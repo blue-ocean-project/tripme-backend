@@ -18,7 +18,7 @@ const squawk = (req, res, next) => {
       req.method
     } ${req.originalUrl}`
   );
-  if (Object.keys(body).length > 0) {
+  if (body.length > 2) {
     console.log(`\tbody: ${body}`);
   }
   next();
