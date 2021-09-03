@@ -45,6 +45,11 @@ module.exports = {
               from: `${config.twilioNumber}`,
               to: `+1${utils.parsePhone(req.body.contacts[i])}`,
             });
+
+            await models.Invite.create({
+              trip_id: req.body.trip_id,
+              key: code,
+            });
           }
         }
 
