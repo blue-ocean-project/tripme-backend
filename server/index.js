@@ -6,16 +6,25 @@ const routes = require("./routers");
 const db = require("../database");
 const models = require("../database/models");
 const cookieParser = require("cookie-parser");
+const moment = require("moment");
 
 const HOST = "0.0.0.0";
 const PORT = 3000;
+
+const squawk = (req, res, next) => {
+  console.log(
+    `${moment(new Date()).format("M/D h:mma")} ${req.method} ${req.originalUrl}`
+  );
+  next();
+};
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(cookies());
 app.use(cookieParser());
-app.use(routes);
+
+app.use("/", squawk, routes);
 
 db.sync()
   .then(() => {
