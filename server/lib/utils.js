@@ -38,6 +38,10 @@ exports.validatePhone = (phone) => {
   return re.test(String(phone));
 };
 
+exports.parsePhone = (phone) => {
+  return phone.replace(/\W/g, "");
+};
+
 exports.generateCode = (length) => {
   var result = "";
   var characters =

@@ -28,20 +28,27 @@ module.exports = {
             const info = await utils.transporter.sendMail({
               from: `"Trip Me" <tripmeblue@gmail.com>`,
               to: req.body.contacts[i],
-              subject: `${req.body.first_name} ${req.body.last_name} has invited you to a trip!`,
-              text: `You have been invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${req.body.trip_id}?key=${code}`,
-              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>You have been invited to join a trip!</h1><a href="${config.clientUrl}/invite/${req.body.trip_id}?key=${code}">Accept Invitation</a></body>`,
+              subject: `Trip.Me: ${req.body.first_name} ${req.body.last_name} has invited you to a trip!`,
+              text: `You have been invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}`,
+              html: `<body><img src="http://titaniasgarden.com/wp-content/uploads/2021/08/TripMe.png" width="300"/><h1>You have been invited to join a trip on Trip.Me!</h1><p>Click on the following link to accept the invitation:</p><a href="${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}">Accept Invitation</a></body>`,
             });
 
             await models.Invite.create({
               trip_id: req.body.trip_id,
               key: code,
             });
-          } else if (utils.validatePhone(req.body.contacts[i])) {
+          } else if (
+            utils.validatePhone(utils.parsePhone(req.body.contacts[i]))
+          ) {
             const msg = await utils.twilio.messages.create({
-              body: `${req.body.first_name} ${req.body.last_name} has invited to join a trip! Visit the following link to accept the invitation: ${config.clientUrl}/invite/${req.body.trip_id}?key=${code}`,
+              body: `${req.body.first_name} ${req.body.last_name} has invited to join a trip on Trip.Me! Visit the following link to accept the invitation: ${config.clientUrl}/?trip=${req.body.trip_id}&key=${code}`,
               from: `${config.twilioNumber}`,
-              to: `+1${req.body.contacts[i]}`,
+              to: `+1${utils.parsePhone(req.body.contacts[i])}`,
+            });
+
+            await models.Invite.create({
+              trip_id: req.body.trip_id,
+              key: code,
             });
           }
         }
@@ -64,11 +71,16 @@ module.exports = {
         const invite = await models.Invite.findOne({
           where: { trip_id: req.params.trip_id, key: req.query.key },
         });
+        const trip = await models.Trips_Users.findOne({
+          where: { trip_id: req.params.trip_id, user_id: req.body.user_id },
+        });
         if (invite) {
-          await models.Trips_Users.create({
-            trip_id: req.params.trip_id,
-            user_id: req.body.user_id,
-          });
+          if (!trip) {
+            await models.Trips_Users.create({
+              trip_id: req.params.trip_id,
+              user_id: req.body.user_id,
+            });
+          }
           await models.Invite.destroy({
             where: { id: invite.id },
           });
